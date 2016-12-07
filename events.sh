@@ -7,12 +7,11 @@
 #************************
 
 awk '/Happy | happy / && !/congratulations | Congratulations | congrats | Congrats | for | the | of | Gn | it | It | to | in | not/ { 
-if ($1 ~ !/:$/) { printf "%s ", $1};
-{for(i=7;i<=NF;i++){printf "%s ", $i}; 
+if ($1 ~ !/:$/) { if ($1 ~ /,$/) { printf "%s ",substr($1, 1, length($1) - 1) }};
+{ for(i=7;i<=NF;i++){ printf "%s ", $i}; 
 printf "\n"};
 }' input.txt > tmp.txt
 
-awk '!NF || !seen[$1]++' tmp.txt > temp.txt 
+awk '!NF || !seen[$1]++;' tmp.txt > temp.txt 
 
 sed '/^$/d' temp.txt > output.txt
-
